@@ -5,7 +5,7 @@
 # "make DO_USERDIRS=1" to enable user directories support
 
 # Enable/Disable user directories support
-DO_USERDIRS=0
+DO_USERDIRS=1
 
 ### Enable/Disable SDL2
 USE_SDL2=1
@@ -264,6 +264,7 @@ OBJS = strlcat.o \
 	crc.o \
 	cvar.o \
 	cfgfile.o \
+	filesys.o \
 	host.o \
 	host_cmd.o \
 	mathlib.o \
