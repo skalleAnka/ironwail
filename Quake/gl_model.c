@@ -3089,7 +3089,7 @@ static void Mod_CalcAliasBounds (aliashdr_t *a)
 						const md3pose_t* current_pose = &poses[i * a->numverts_vbo + j];
 
 						for (k = 0; k < 3; k++)
-							v[k] = current_pose->xyz[k];
+							v[k] = (current_pose->xyz[k] - 32768) * MD3_XYZ_SCALE;
 
 						for (k = 0; k < 3; k++)
 						{
@@ -4994,7 +4994,9 @@ static void Mod_LoadMD3Model (qmodel_t* mod, const char* buffer)
 			for (j = 0; j < numVerts; j++) {
 				md3Vertex_t* iv = &in_verts[f * numVerts + j];
 				md3pose_t* ov = &raw_poses[f * numVerts + j];
-				ov->xyz[0] = LittleShort (iv->xyz[0]) * MD3_XYZ_SCALE; ov->xyz[1] = LittleShort (iv->xyz[1]) * MD3_XYZ_SCALE; ov->xyz[2] = LittleShort (iv->xyz[2]) * MD3_XYZ_SCALE;
+				ov->xyz[0] = LittleShort (iv->xyz[0]) + 32768;
+				ov->xyz[1] = LittleShort (iv->xyz[1]) + 32768;
+				ov->xyz[2] = LittleShort (iv->xyz[2]) + 32768;
 				ov->normal[0] = iv->normal[0];
 				ov->normal[1] = iv->normal[1];
 			}
