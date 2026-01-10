@@ -365,9 +365,9 @@ typedef struct
 } boneinfo_t;
 typedef struct
 {
-	float	xyz[4]; // only uses 3 but must be padded to 16 bytes
-	float	normal[4]; // ditto
-} md3pose_t; // Total size is now 32 bytes
+	float	xyz[3];
+	uint8_t	normal[4]; // spherical coords, only the first 2 components are used
+} md3pose_t; // Total size is now 16 bytes
 #define	MAXALIASVERTS		0x7fff //16-bit index buffer + onseam duplication
 #define	MAXALIASVERTS_QS	2000 //johnfitz -- was 1024
 #define	MAXALIASFRAMES		1024 //spike -- was 256

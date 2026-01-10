@@ -4455,17 +4455,6 @@ static void Mod_LoadMD5MeshModel (qmodel_t *mod, const char *buffer)
 // =======================================================================
 
 
-// Helper to decode an MD3 normal (encoded as spherical coordinates) into a vec3_t.
-static void DecodeMD3Normal (unsigned char n[2], vec3_t out)
-{
-	float lat = (n[0] * 2 * M_PI) / 255.0f;
-	float lng = (n[1] * 2 * M_PI) / 255.0f;
-	out[0] = cosf (lng) * sinf (lat);
-	out[1] = sinf (lng) * sinf (lat);
-	out[2] = cosf (lat);
-}
-
-
 // Helper function to check if a name already exists in a list.
 static qboolean NameInList (const char* name, char** list, int list_count) {
 	int i;
@@ -5006,7 +4995,8 @@ static void Mod_LoadMD3Model (qmodel_t* mod, const char* buffer)
 				md3Vertex_t* iv = &in_verts[f * numVerts + j];
 				md3pose_t* ov = &raw_poses[f * numVerts + j];
 				ov->xyz[0] = LittleShort (iv->xyz[0]) * MD3_XYZ_SCALE; ov->xyz[1] = LittleShort (iv->xyz[1]) * MD3_XYZ_SCALE; ov->xyz[2] = LittleShort (iv->xyz[2]) * MD3_XYZ_SCALE;
-				DecodeMD3Normal (iv->normal, ov->normal);
+				ov->normal[0] = iv->normal[0];
+				ov->normal[1] = iv->normal[1];
 			}
 		}
 
