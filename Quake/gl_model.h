@@ -281,7 +281,6 @@ typedef struct meshxyz_s
 typedef struct meshst_s
 {
 	float st[2];
-	unsigned short vertexID;
 } meshst_t;
 //--
 

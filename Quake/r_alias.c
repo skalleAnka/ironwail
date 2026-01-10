@@ -337,8 +337,6 @@ void R_FlushAliasInstances (qboolean showtris)
 
 	if (poseverttype == PV_IQM)
 		state = GLS_CULL_BACK | GLS_ATTRIBS (5);
-	else if (poseverttype == PV_MD3)
-		state = GLS_CULL_BACK | GLS_ATTRIBS (2);
 	else
 		state = GLS_CULL_BACK | GLS_ATTRIBS (1);
 
@@ -402,7 +400,6 @@ void R_FlushAliasInstances (qboolean showtris)
 		}
 		else if (poseverttype == PV_MD3) {
 			GL_VertexAttribPointerFunc (0, 2, GL_FLOAT, GL_FALSE, sizeof (meshst_t), (void*)(intptr_t)hdr->vbostofs);
-			GL_VertexAttribIPointerFunc (1, 1, GL_UNSIGNED_SHORT, sizeof (meshst_t), (void*)(intptr_t)(hdr->vbostofs + offsetof (meshst_t, vertexID)));
 			buffers[1] = model->meshvbo; offsets[1] = hdr->vbovertofs; sizes[1] = sizeof (md3pose_t) * hdr->numverts_vbo * hdr->numposes;
 		}
 		else {
@@ -457,7 +454,6 @@ void R_FlushAliasInstances (qboolean showtris)
 			}
 			else if (poseverttype == PV_MD3) {
 				GL_VertexAttribPointerFunc (0, 2, GL_FLOAT, GL_FALSE, sizeof (meshst_t), (void*)(intptr_t)hdr->vbostofs);
-				GL_VertexAttribIPointerFunc (1, 1, GL_UNSIGNED_SHORT, sizeof (meshst_t), (void*)(intptr_t)(hdr->vbostofs + offsetof (meshst_t, vertexID)));
 				buffers[1] = model->meshvbo; offsets[1] = hdr->vbovertofs; sizes[1] = sizeof (md3pose_t) * hdr->numverts_vbo * hdr->numposes;
 			}
 			else {

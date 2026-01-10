@@ -293,7 +293,6 @@ void GLMesh_LoadVertexBuffer (qmodel_t *m, aliashdr_t *mainhdr)
 			for (f = 0; f < hdr->numverts_vbo; f++) {
 				st[f].st[0] = hscale * ((float)desc[f].st[0] + 0.5f);
 				st[f].st[1] = vscale * ((float)desc[f].st[1] + 0.5f);
-				st[f].vertexID = f;
 			}
 		}
 
