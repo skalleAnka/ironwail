@@ -153,14 +153,14 @@ void GLMesh_LoadVertexBuffer (qmodel_t *m, aliashdr_t *mainhdr)
 		switch(hdr->poseverttype)
 		{
 		case PV_QUAKE1:
-			totalvbosize += (hdr->numposes * hdr->numverts_vbo * sizeof (meshxyz_t)); // ericw -- what RMQEngine called nummeshframes is called numposes in QuakeSpasm
+			totalvbosize += GL_AlignSSBO (hdr->numposes * hdr->numverts_vbo * sizeof (meshxyz_t)); // ericw -- what RMQEngine called nummeshframes is called numposes in QuakeSpasm
 			break;
 		case PV_IQM:
-			totalvbosize += (hdr->numposes * hdr->numverts_vbo * sizeof (iqmvert_t));
-			animsize += hdr->numboneposes * hdr->numbones * sizeof (bonepose_t);
+			totalvbosize += GL_AlignSSBO (hdr->numposes * hdr->numverts_vbo * sizeof (iqmvert_t));
+			animsize += GL_AlignSSBO (hdr->numboneposes * hdr->numbones * sizeof (bonepose_t));
 			break;
 		case PV_MD3:
-			totalvbosize += (hdr->numposes * hdr->numverts_vbo * sizeof (md3pose_t));
+			totalvbosize += GL_AlignSSBO (hdr->numposes * hdr->numverts_vbo * sizeof (md3pose_t));
 			break;
 		default:
 			Sys_Error ("Bad vert type %i for %s", hdr->poseverttype, m->name);
@@ -178,16 +178,13 @@ void GLMesh_LoadVertexBuffer (qmodel_t *m, aliashdr_t *mainhdr)
 	hdr = NULL;
 
 	vertofs = 0;
-	totalvbosize = (totalvbosize + ssbo_align) & ~ssbo_align;	//align it.
 
 	stofs = totalvbosize;
 	if (mainhdr->poseverttype == PV_QUAKE1 || mainhdr->poseverttype == PV_MD3)
-		totalvbosize += (numverts * sizeof (meshst_t));
-	totalvbosize = (totalvbosize + ssbo_align) & ~ssbo_align;	//align it.
+		totalvbosize += GL_AlignSSBO (numverts * sizeof (meshst_t));
 
 	poseofs = totalvbosize;
 	totalvbosize += animsize;
-	totalvbosize = (totalvbosize + ssbo_align) & ~ssbo_align;	//align it.
 
 	if (!totalvbosize) return;
 	if (!numindexes) return;
@@ -250,10 +247,11 @@ void GLMesh_LoadVertexBuffer (qmodel_t *m, aliashdr_t *mainhdr)
 					xyz[v].normal[3] = 0;	// unused; for 4-byte alignment
 				}
 			}
+			vertofs = GL_AlignSSBO (vertofs);
 			break;
 		case PV_MD3:
 			memcpy (vbodata + vertofs, (byte*)hdr + hdr->vertexes, hdr->numposes * hdr->numverts_vbo * sizeof (md3pose_t));
-			vertofs += hdr->numposes * hdr->numverts_vbo * sizeof (md3pose_t);
+			vertofs += GL_AlignSSBO (hdr->numposes * hdr->numverts_vbo * sizeof (md3pose_t));
 			break;
 		case PV_IQM:
 			for (f = 0; f < hdr->numposes; f++) // ericw -- what RMQEngine called nummeshframes is called numposes in QuakeSpasm
@@ -270,7 +268,7 @@ void GLMesh_LoadVertexBuffer (qmodel_t *m, aliashdr_t *mainhdr)
 			// copy bone poses
 			hdr->vboposeofs = poseofs;
 			memcpy (vbodata + hdr->vboposeofs, (byte *) hdr + hdr->boneposedata, hdr->numboneposes * hdr->numbones * sizeof (bonepose_t));
-			poseofs += hdr->numboneposes * hdr->numbones * sizeof (bonepose_t);
+			poseofs += GL_AlignSSBO (hdr->numboneposes * hdr->numbones * sizeof (bonepose_t));
 
 			break;
 		}

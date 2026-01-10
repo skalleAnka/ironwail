@@ -299,6 +299,9 @@ void GL_ResetState (void);
 extern GLint ssbo_align; // SSBO alignment - 1
 extern GLint ubo_align; // UBO alignment - 1
 
+static inline size_t GL_AlignSSBO (size_t ofs) { return (ofs + ssbo_align) & ~ssbo_align; }
+static inline size_t GL_AlignUBO (size_t ofs) { return (ofs + ubo_align) & ~ubo_align; }
+
 //johnfitz -- anisotropic filtering
 #define	GL_TEXTURE_MAX_ANISOTROPY_EXT		0x84FE
 #define	GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT	0x84FF
