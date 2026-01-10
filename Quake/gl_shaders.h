@@ -1105,7 +1105,7 @@ ALIAS_INSTANCE_BUFFER
 "\n"
 "	PoseVertex GetPoseVertex (uint pose)\n"
 "	{\n"
-"		uint safePose = clamp(pose, 0, u_numPoses - 1);\n"
+"		uint safePose = clamp(pose, 0u, uint(u_numPoses - 1));\n"
 "\n"
 "		int index = int(safePose) * u_numVerts + gl_VertexID;\n"
 "		uvec2 data = PackedPosNor[index];\n"
