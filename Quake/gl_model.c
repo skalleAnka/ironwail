@@ -656,7 +656,7 @@ static void Mod_LoadTextures (lump_t *l)
 			{
 				int	extraflags = TEXPREF_BINDLESS;
 				if (tx->type == TEXTYPE_CUTOUT)
-					extraflags |= TEXPREF_ALPHA;
+					extraflags |= TEXPREF_ALPHA | TEXPREF_UNCOMPRESSED;
 
 				//external textures -- first look in "textures/mapname/" then look in "textures/"
 				mark = Hunk_LowMark ();
@@ -2929,7 +2929,7 @@ static void *Mod_LoadAllSkins (int numskins, daliasskintype_t *pskintype)
 	size = pheader->skinwidth * pheader->skinheight;
 
 	if (loadmodel->flags & MF_HOLEY)
-		texflags |= TEXPREF_ALPHA;
+		texflags |= TEXPREF_ALPHA | TEXPREF_UNCOMPRESSED;
 
 	for (i=0 ; i<numskins ; i++)
 	{
