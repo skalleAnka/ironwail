@@ -534,7 +534,7 @@ TexMgr_CanCompress
 */
 static qboolean TexMgr_CanCompress (gltexture_t *glt)
 {
-	return glt->source_format != SRC_LIGHTMAP && (glt->flags & TEXPREF_PERSIST) == 0;
+	return glt->source_format != SRC_LIGHTMAP && (glt->flags & TEXPREF_UNCOMPRESSED) == 0;
 }
 
 /*
