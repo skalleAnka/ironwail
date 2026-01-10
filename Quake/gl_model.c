@@ -5003,21 +5003,20 @@ static void Mod_LoadMD3Model (qmodel_t* mod, const char* buffer)
 		}
 
 		int mark = Hunk_LowMark ();
-		unsigned short* remap = (unsigned short*)Hunk_Alloc (hdr->numverts * 2 * sizeof (remap[0]));
+		unsigned short* remap = (unsigned short*)Hunk_Alloc (hdr->numverts * sizeof (remap[0]));
 		hdr->numindexes = 0;
 		hdr->numverts_vbo = 0;
 		for (i = 0; i < hdr->numtris; i++) {
 			for (j = 0; j < 3; j++) {
 				unsigned short vertindex = LittleLong (in_tris_md3[i].indexes[j]);
-				int v = vertindex * 2;
 				if (vertindex >= (unsigned short)numVerts) Sys_Error ("Vertex index out of bounds");
-				if (!remap[v]) {
+				if (!remap[vertindex]) {
 					out_meshdesc[hdr->numverts_vbo].vertindex = vertindex;
 					out_meshdesc[hdr->numverts_vbo].st[0] = raw_stverts[vertindex].s;
 					out_meshdesc[hdr->numverts_vbo].st[1] = raw_stverts[vertindex].t;
-					remap[v] = ++hdr->numverts_vbo;
+					remap[vertindex] = ++hdr->numverts_vbo;
 				}
-				poutindexes[hdr->numindexes++] = remap[v] - 1;
+				poutindexes[hdr->numindexes++] = remap[vertindex] - 1;
 			}
 		}
 		Hunk_FreeToLowMark (mark);
