@@ -1110,7 +1110,7 @@ ALIAS_INSTANCE_BUFFER
 "		int index = int(safePose) * u_numVerts + gl_VertexID;\n"
 "		uvec2 data = PackedPosNor[index];\n"
 "		PoseVertex ret;\n"
-"		ret.pos = vec3((ivec3(data.xxy >> uvec3(0, 16, 0)) & 65535) - 32768) * (1.0 / 64.0);\n"
+"		ret.pos = vec3((ivec3(data.xxy >> uvec3(0, 16, 0)) & 65535) - 32768);\n"
 "		vec2 spherical = vec2((data.yy >> uvec2(16, 24)) & 255) * (2.0 * 3.14159265 / 255.0);\n"
 "		float sinlat = sin(spherical.x);\n"
 "		float coslat = cos(spherical.x);\n"

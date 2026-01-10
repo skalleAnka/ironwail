@@ -4920,7 +4920,7 @@ static void Mod_LoadMD3Model (qmodel_t* mod, const char* buffer)
 		hdr->numtris = numTris;
 		hdr->numposes = in_header->numFrames;
 		VectorSet (hdr->scale_origin, 0, 0, 0);
-		VectorSet (hdr->scale, 1, 1, 1);
+		VectorSet (hdr->scale, MD3_XYZ_SCALE, MD3_XYZ_SCALE, MD3_XYZ_SCALE);
 		hdr->meshdesc = (byte*)out_meshdesc - (byte*)hdr;
 		hdr->indexes = (byte*)poutindexes - (byte*)hdr;
 		if (surf_i < in_header->numSurfaces - 1) {
