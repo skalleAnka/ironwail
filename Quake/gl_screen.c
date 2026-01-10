@@ -83,7 +83,7 @@ float		scr_conlines;		// lines of console to display
 cvar_t		scr_menuscale = {"scr_menuscale", "1", CVAR_ARCHIVE};
 cvar_t		scr_menubgalpha = {"scr_menubgalpha", "0.7", CVAR_ARCHIVE};
 cvar_t		scr_menubgstyle = {"scr_menubgstyle", "-1", CVAR_ARCHIVE};
-cvar_t		scr_centerprintbg = {"scr_centerprintbg", "0", CVAR_ARCHIVE}; // 0 = off; 1 = text box; 2 = menu box; 3 = menu strip
+cvar_t		scr_centerprintbg = {"scr_centerprintbg", "2", CVAR_ARCHIVE}; // 0 = off; 1 = text box; 2 = menu box; 3 = menu strip
 cvar_t		scr_sbarscale = {"scr_sbarscale", "1", CVAR_ARCHIVE};
 cvar_t		scr_sbaralpha = {"scr_sbaralpha", "0.75", CVAR_ARCHIVE};
 cvar_t		scr_conwidth = {"scr_conwidth", "0", CVAR_ARCHIVE};
