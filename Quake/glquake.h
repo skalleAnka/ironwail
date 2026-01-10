@@ -614,7 +614,7 @@ typedef struct skybox_s
 	gltexture_t		*textures[6];
 	gltexture_t		*cubemap;
 	byte			*cubemap_pixels;
-	void			*cubemap_offsets[6];
+	void			**cubemap_offsets;
 } skybox_t;
 
 extern skybox_t		*skybox;
