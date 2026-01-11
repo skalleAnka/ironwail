@@ -368,8 +368,6 @@ void GL_CreateShaders (void)
 				for (poseverttype = 0; poseverttype < 3; poseverttype++) 
 					glprogs.alias[oit][mode][alphatest][poseverttype] =
 					GL_CreateProgram (alias_vertex_shader, alias_fragment_shader, "alias|OIT %d; MODE %d; ALPHATEST %d; POSEVERTTYPE %d", oit, mode, alphatest, poseverttype);
-	glprogs.alias_numverts_loc = GL_GetUniformLocationFunc (glprogs.alias[0][0][0][2], "u_numVerts");
-	glprogs.alias_numposes_loc = GL_GetUniformLocationFunc (glprogs.alias[0][0][0][2], "u_numPoses");
 
 	glprogs.debug3d = GL_CreateProgram (debug3d_vertex_shader, debug3d_fragment_shader, "debug3d");
 

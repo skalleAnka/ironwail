@@ -409,8 +409,8 @@ void R_FlushAliasInstances (qboolean showtris)
 		GL_BindBuffersRange (GL_SHADER_STORAGE_BUFFER, 1, 2, buffers, offsets, sizes);
 
 		if (poseverttype == PV_MD3) {
-			GL_Uniform1iFunc (glprogs.alias_numverts_loc, hdr->numverts_vbo);
-			GL_Uniform1iFunc (glprogs.alias_numposes_loc, hdr->numposes);
+			GL_Uniform1iFunc (0, hdr->numverts_vbo);
+			GL_Uniform1iFunc (1, hdr->numposes);
 		}
 		GL_BindTextures (0, 2, textures);
 		GL_DrawElementsInstancedFunc (GL_TRIANGLES, hdr->numindexes, GL_UNSIGNED_SHORT, (void*)hdr->eboofs, ibuf.count);
@@ -463,8 +463,8 @@ void R_FlushAliasInstances (qboolean showtris)
 			GL_BindBuffersRange (GL_SHADER_STORAGE_BUFFER, 1, 2, buffers, offsets, sizes);
 
 			if (poseverttype == PV_MD3) {
-				GL_Uniform1iFunc (glprogs.alias_numverts_loc, hdr->numverts_vbo);
-				GL_Uniform1iFunc (glprogs.alias_numposes_loc, hdr->numposes);
+				GL_Uniform1iFunc (0, hdr->numverts_vbo);
+				GL_Uniform1iFunc (1, hdr->numposes);
 			}
 			GL_BindTextures (0, 2, textures);
 			GL_DrawElementsInstancedFunc (GL_TRIANGLES, hdr->numindexes, GL_UNSIGNED_SHORT, (void*)hdr->eboofs, ibuf.count);
