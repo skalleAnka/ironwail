@@ -415,6 +415,12 @@ float S_GetHiFreqLevel (void)
 	return snd_hifreqlevel;
 }
 
+void S_ClearFilteredLevels (void)
+{
+	snd_lofreqlevel = 0.f;
+	snd_hifreqlevel = 0.f;
+}
+
 /*
 ===============================================================================
 
