@@ -327,9 +327,7 @@ typedef struct {
 	//ericw --
 
 	int					numposes;
-	intptr_t			nextsurface;	//spike
-	//int					nummorphposes;		//spike -- renamed from numposes
-	int					numboneposes;		//spike -- for iqm
+	intptr_t			nextsurface;		//spike
 	int					numbones;			//spike -- for iqm
 	intptr_t			boneinfo;			//spike -- for iqm, boneinfo_t[numbones]
 	intptr_t			boneposedata;		//spike -- for iqm, bonepose_t[numboneposes*numbones]
@@ -344,6 +342,8 @@ typedef struct {
 	int					texels[MAX_SKINS];	// only for player skins
 	maliasframedesc_t	frames[1];	// variable sized
 } aliashdr_t;
+
+static inline aliashdr_t *Mod_NextSurface (aliashdr_t *hdr) { return hdr->nextsurface ? (aliashdr_t*)((byte*)hdr + hdr->nextsurface) : NULL; }
 
 typedef struct
 {

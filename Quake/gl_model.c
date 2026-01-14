@@ -3054,12 +3054,10 @@ static void Mod_CalcAliasBounds (aliashdr_t *a)
 
 	for (;;)
 	{
-		if (a->numposes && a->numverts)
+		switch(a->poseverttype)
 		{
-			switch(a->poseverttype)
-			{
 			case PV_QUAKE1:
-				//process verts
+			{
 				for (i=0 ; i<a->numposes; i++)
 					for (j=0; j<a->numverts; j++)
 					{
@@ -3078,7 +3076,9 @@ static void Mod_CalcAliasBounds (aliashdr_t *a)
 						if (radius < dist)
 							radius = dist;
 					}
-				break;
+			}
+			break;
+
 			case PV_MD3:
 			{
 				const md3pose_t* poses = (const md3pose_t*)((byte*)a + a->vertexes);
@@ -3106,31 +3106,29 @@ static void Mod_CalcAliasBounds (aliashdr_t *a)
 				}
 			}
 			break;
-			case PV_IQM:
-				//process verts
-				for (i=0 ; i<a->numposes; i++)
-				{
-					const iqmvert_t *pv = (const iqmvert_t *)((byte*)a+a->vertexes) + i*a->numverts;
-					for (j=0; j<a->numverts; j++)
-					{
-						for (k=0; k<3;k++)
-							v[k] = pv[j].xyz[k];
 
-						for (k=0; k<3;k++)
-						{
-							loadmodel->mins[k] = q_min(loadmodel->mins[k], v[k]);
-							loadmodel->maxs[k] = q_max(loadmodel->maxs[k], v[k]);
-						}
-						dist = v[0] * v[0] + v[1] * v[1];
-						if (yawradius < dist)
-							yawradius = dist;
-						dist += v[2] * v[2];
-						if (radius < dist)
-							radius = dist;
+			case PV_IQM:
+			{
+				const iqmvert_t *pv = (const iqmvert_t *)((byte*)a+a->vertexes);
+				for (j=0; j<a->numverts; j++)
+				{
+					for (k=0; k<3;k++)
+						v[k] = pv[j].xyz[k];
+
+					for (k=0; k<3;k++)
+					{
+						loadmodel->mins[k] = q_min(loadmodel->mins[k], v[k]);
+						loadmodel->maxs[k] = q_max(loadmodel->maxs[k], v[k]);
 					}
+					dist = v[0] * v[0] + v[1] * v[1];
+					if (yawradius < dist)
+						yawradius = dist;
+					dist += v[2] * v[2];
+					if (radius < dist)
+						radius = dist;
 				}
-				break;
 			}
+			break;
 		}
 
 		if (!a->nextsurface)
@@ -4213,11 +4211,13 @@ static void Mod_LoadMD5MeshModel (qmodel_t *mod, const char *buffer)
 
 	if (strcmp(com_token, "joints")) Sys_Error ("Mod_LoadMD5MeshModel(%s): Expected \"%s\"", fname, "joints");
 	MD5Anim_Begin(&anim, fname);
+	if (anim.numposes <= 0)
+		Sys_Error ("MD5 anim %s has no poses", fname);
 	buffer = COM_Parse(buffer);
 
 	hdrsize = sizeof(*outhdr) - sizeof(outhdr->frames);
 	hdrsize += sizeof(outhdr->frames)*anim.numposes;
-	outhdr = (aliashdr_t *) Hunk_Alloc(hdrsize*numjoints);
+	outhdr = (aliashdr_t *) Hunk_Alloc(hdrsize*nummeshes);
 	outbones = (boneinfo_t *) Hunk_Alloc(sizeof(*outbones)*numjoints);
 	outposes = (bonepose_t *) Z_Malloc(sizeof(*outposes)*numjoints);
 
@@ -4278,7 +4278,7 @@ static void Mod_LoadMD5MeshModel (qmodel_t *mod, const char *buffer)
 		if (anim.numposes)
 		{
 			surf->boneposedata = (byte*)anim.posedata-(byte*)surf;
-			surf->numboneposes = anim.numposes;
+			surf->numposes = anim.numposes;
 
 			for (j = 0; j < anim.numposes; j++)
 			{
@@ -4362,7 +4362,6 @@ static void Mod_LoadMD5MeshModel (qmodel_t *mod, const char *buffer)
 		vinfo = (md5vertinfo_t *) Z_Malloc(sizeof(*vinfo)*surf->numverts);
 		poutvert = (iqmvert_t *) Hunk_Alloc(sizeof(*poutvert)*surf->numverts);
 		surf->vertexes = (byte*)poutvert-(byte*)surf;
-		surf->numposes = 1;
 		while (MD5CHECK("vert"))
 		{
 			size_t idx = MD5UINT();
