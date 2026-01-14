@@ -1575,7 +1575,7 @@ DRAW_ELEMENTS_INDIRECT_COMMAND
 "	uint packedleafsky; // bit 0=sky; 1..31=leafindex\n"
 "	uint surfindex;\n"
 "};\n"
-";\n"
+"\n"
 "layout(std430, binding=4) restrict readonly buffer MarkSurfaceBuffer\n"
 "{\n"
 "	MarkSurface marksurfs[];\n"
