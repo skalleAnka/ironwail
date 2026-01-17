@@ -821,6 +821,30 @@ int Key_GetKeysForCommand (const char *command, int *keys, int maxkeys, keydevic
 
 /*
 ===================
+Key_IsKeyGamepadAltModifier
+===================
+*/
+qboolean Key_IsKeyGamepadAltModifier (int keynum)
+{
+	return Cmd_IsGamepadAltModifier( keybindings[keynum] );
+}
+
+/*
+===================
+Key_GetGamepadAltModifierState
+===================
+*/
+qboolean Key_GetGamepadAltModifierState (void)
+{
+	int keynum;
+	for (keynum = 0; keynum < MAX_KEYS; keynum++)
+		if (keydown[keynum] && Key_IsKeyGamepadAltModifier (keynum))
+			return true;
+	return false;
+}
+
+/*
+===================
 Key_Unbind_f
 ===================
 */
@@ -1184,7 +1208,7 @@ void Key_EventWithKeycode (int key, qboolean down, int keycode)
 	if (joy_altmodifier_pressed && key >= K_LTHUMB && key < K_LTHUMB_ALT)
 	{
 		// make sure key is not the altmodifier itself (which we won't turn into *_ALT)
-		if (keybindings[key] == NULL || strcmp(keybindings[key], "+altmodifier") != 0)
+		if (!Key_IsKeyGamepadAltModifier (key))
 		{
 			int altkey = key + (K_LTHUMB_ALT - K_LTHUMB);
 			// allow fallback to binding with non-alt key

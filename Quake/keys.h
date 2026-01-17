@@ -234,6 +234,8 @@ void Key_SetBinding (int keynum, const char *binding);
 keydevice_t Key_GetDeviceForKeynum (int keynum);
 keydevicemask_t Key_GetDeviceMaskForKeynum (int keynum);
 int Key_GetKeysForCommand (const char *command, int *keys, int maxkeys, keydevicemask_t devmask);
+qboolean Key_IsKeyGamepadAltModifier (int keynum);
+qboolean Key_GetGamepadAltModifierState (void);
 const char *Key_KeynumToString (int keynum);
 const char *Key_KeynumToFriendlyString (int keynum);
 void Key_WriteBindings (FILE *f);

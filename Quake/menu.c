@@ -5176,7 +5176,8 @@ void M_Keys_Draw (void)
 			{
 				if (!active)
 					GL_SetCanvasColor (1.f, 1.f, 1.f, 0.375f);
-				print_fn (x, y, "???");
+				hint = (bind_grab && i == keysmenu.list.cursor && Key_GetGamepadAltModifierState()) ? "Alt-???" : "???";
+				print_fn (x, y, hint);
 				GL_SetCanvasColor (1.f, 1.f, 1.f, 1.f);
 			}
 		}
@@ -5226,6 +5227,14 @@ void M_Keys_Key (int k)
 				return;
 
 			command = keysmenu.items[keysmenu.list.cursor].command;
+			if (!Cmd_IsGamepadAltModifier (command))
+			{
+				if (Key_IsKeyGamepadAltModifier (k))
+					return;
+				else if (Key_GetGamepadAltModifierState ())
+					k += K_LTHUMB_ALT - K_LTHUMB;
+			}
+
 			M_FindKeysForCommand (command, keys);
 			if (keys[2] != -1)
 				M_UnbindCommand (command);
