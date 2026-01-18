@@ -7253,7 +7253,7 @@ void M_Draw (void)
 }
 
 
-void M_Keydown (int key)
+void M_Keydown (int key, qboolean repeat)
 {
 	if (!bind_grab && !ui_mouse.value && M_IsMouseKey (key))
 		return;
@@ -7269,6 +7269,24 @@ void M_Keydown (int key)
 			case K_DPAD_RIGHT:	key = K_RIGHTARROW; break;
 			default:
 				break;
+		}
+	}
+
+	// only allow repeat events for a few navigational keys
+	// this reduces sound spam and, for gamepads, rumble spam
+	// (particularly noticeable while holding the alt modifier when changing bindings)
+	if (repeat)
+	{
+		switch (key)
+		{
+		case K_UPARROW:
+		case K_DOWNARROW:
+		case K_LEFTARROW:
+		case K_RIGHTARROW:
+		case K_ESCAPE:
+			break;
+		default:
+			return;
 		}
 	}
 
