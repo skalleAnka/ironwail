@@ -517,6 +517,7 @@ void R_NewMap (void)
 	VEC_CLEAR (r_pointfile);
 
 	GL_BuildLightmaps ();
+	GL_DeleteBModelBuffers ();
 	GL_BuildBModelVertexBuffer ();
 	GL_BuildBModelMarkBuffers ();
 	//ericw -- no longer load alias models into a VBO here, it's done in Mod_LoadAliasModel
